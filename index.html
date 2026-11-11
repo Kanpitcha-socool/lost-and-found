@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lost &amp; Found | ศูนย์ของหาย-ของเจอ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7efec;--dot:#f6c9d6;--card:#fffaf8;--ink:#5a443b;--mute:#8a7167;--line:#e6d3cc;--lost:#8d6e63;--pink:#f4b8c8;--pinkt:#b04f6f;--on:#2e2421;--lostbg:#efe2dc;--pinkbg:#fbe1e8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2e2421;--dot:#4d3542;--card:#3b2f2b;--ink:#f5e9e4;--mute:#c9b2a9;--line:#5c4a43;--lost:#c4a79b;--pink:#f4b8c8;--pinkt:#f4b8c8;--on:#2e2421;--lostbg:#4a3a34;--pinkbg:#5a3744}}
+:root[data-theme="dark"]{--bg:#2e2421;--dot:#4d3542;--card:#3b2f2b;--ink:#f5e9e4;--mute:#c9b2a9;--line:#5c4a43;--lost:#c4a79b;--pink:#f4b8c8;--pinkt:#f4b8c8;--on:#2e2421;--lostbg:#4a3a34;--pinkbg:#5a3744}
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--bg);background-image:radial-gradient(circle,var(--dot) 7px,transparent 7.5px),radial-gradient(circle,var(--dot) 7px,transparent 7.5px);background-size:44px 44px;background-position:0 0,22px 22px;color:var(--ink);font-family:'Noto Sans Thai Looped','Sarabun',system-ui,sans-serif;line-height:1.6}
+.wrap{max-width:960px;margin:0 auto;padding:0 18px}
+a{color:inherit}
+a:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:16px 0}
+.logo{font-weight:800;font-size:1.2rem;text-decoration:none}
+.btn{display:inline-block;text-decoration:none;font-weight:600;padding:12px 22px;border-radius:12px;background:var(--pink);color:var(--on)}
+.btn.ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+.hero{display:grid;gap:28px;padding:28px 0 36px;align-items:center}
+@media(min-width:760px){.hero{grid-template-columns:1.1fr 1fr;padding:48px 0 56px}}
+h1{font-size:clamp(2rem,6vw,3rem);line-height:1.2;font-weight:800;margin:0 0 12px;letter-spacing:-.01em}
+h1 span{color:var(--pinkt)}
+.lead{color:var(--mute);font-size:1.1rem;margin:0 0 22px}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.demo{position:relative;min-height:260px}
+.tg{position:absolute;width:min(300px,86%);background:var(--card);border:1.5px solid var(--line);border-radius:8px 22px 22px 8px;padding:16px 16px 14px 46px;box-shadow:0 6px 18px rgba(90,68,59,.12)}
+.tg::before{content:"";position:absolute;left:15px;top:18px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--line)}
+.tg.a{left:0;top:0;transform:rotate(-4deg);border-left:6px solid var(--lost)}
+.tg.b{right:0;top:120px;transform:rotate(3deg);border-left:6px solid var(--pink)}
+.k{font-weight:800;font-size:.85rem}.a .k{color:var(--lost)}.b .k{color:var(--pinkt)}
+.tg h3{margin:0;font-size:1.1rem}.tg p{margin:0;color:var(--mute);font-size:.9rem}
+section{padding:28px 0}
+h2{font-size:1.6rem;margin:0 0 16px}
+.grid{display:grid;gap:14px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:20px}
+.num{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--pink);color:var(--on);font-weight:800;margin-bottom:8px}
+.card h3{margin:0 0 4px;font-size:1.1rem}.card p{margin:0;color:var(--mute)}
+.band{background:var(--card);border:1.5px solid var(--line);border-left:8px solid var(--pink);border-radius:10px 28px 28px 10px;padding:26px 22px;text-align:center;margin:12px 0 28px}
+.band h2{margin-bottom:6px}.band p{color:var(--mute);margin:0 0 16px}
+footer{text-align:center;color:var(--mute);font-size:.9rem;padding:8px 0 32px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="logo" href="index.html">🎒 Lost &amp; Found</a>
+    <a class="btn" href="login.html">เข้าสู่ระบบ</a>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <h1>ของหาย <span>ไม่ต้องหายไปเลย</span></h1>
+      <p class="lead">ศูนย์กลางแจ้งของหายและของเจอสำหรับมหาวิทยาลัย โรงเรียน และพื้นที่ต่าง ๆ แจ้งง่าย ค้นหาไว ให้ของกลับถึงมือเจ้าของ</p>
+      <div class="cta">
+        <a class="btn" href="login.html">เริ่มใช้งาน</a>
+        <a class="btn ghost" href="#how">ใช้งานอย่างไร</a>
+      </div>
+    </div>
+    <div class="demo" aria-hidden="true">
+      <div class="tg a"><span class="k">ของหาย</span><h3>กระเป๋าสตางค์สีน้ำตาล</h3><p>สถานีรถไฟฟ้า · วันนี้</p></div>
+      <div class="tg b"><span class="k">ของเจอ</span><h3>พวงกุญแจรถ</h3><p>โรงอาหาร ชั้น 1 · เมื่อวาน</p></div>
+    </div>
+  </header>
+
+  <section id="how">
+    <h2>ใช้งานง่ายใน 3 ขั้นตอน</h2>
+    <div class="grid">
+      <div class="card"><span class="num">1</span><h3>สมัครด้วยอีเมล</h3><p>สร้างบัญชีและเข้าสู่ระบบ เพื่อให้เฉพาะสมาชิกเห็นประกาศ</p></div>
+      <div class="card"><span class="num">2</span><h3>แจ้งของหายหรือของเจอ</h3><p>กรอกรายละเอียด สถานที่ วันที่ และแนบรูปได้</p></div>
+      <div class="card"><span class="num">3</span><h3>ติดต่อรับคืน</h3><p>เจ้าของและผู้พบติดต่อกันเอง เสร็จแล้วกด "ได้คืนแล้ว"</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>ทำไมต้อง Lost &amp; Found</h2>
+    <div class="grid">
+      <div class="card"><h3>🔎 ค้นหาไว</h3><p>พิมพ์ชื่อของ หมวดหมู่ หรือสถานที่ แล้วกรองดูเฉพาะของหายหรือของเจอได้</p></div>
+      <div class="card"><h3>🔒 ปลอดภัย</h3><p>ต้องล็อกอินก่อนดูข้อมูลติดต่อ และแก้หรือลบได้เฉพาะประกาศของตัวเอง</p></div>
+      <div class="card"><h3>📱 ใช้ได้ทุกอุปกรณ์</h3><p>หน้าเว็บปรับตามหน้าจอ ใช้ได้ทั้งมือถือ แท็บเล็ต และคอมพิวเตอร์</p></div>
+    </div>
+  </section>
+
+  <div class="band">
+    <h2>พร้อมตามหาของที่หายแล้วหรือยัง</h2>
+    <p>สมัครฟรี ใช้เวลาไม่ถึงหนึ่งนาที</p>
+    <a class="btn" href="login.html">เข้าสู่ระบบ / สมัครสมาชิก</a>
+  </div>
+  <footer>© Lost &amp; Found · ช่วยกันส่งของกลับบ้าน</footer>
+</div>
+</body>
+</html>

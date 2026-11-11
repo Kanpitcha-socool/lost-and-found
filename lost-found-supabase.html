@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ของหาย-ของเจอ (Supabase)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7efec;--dot:#f6c9d6;--card:#fffaf8;--ink:#5a443b;--mute:#8a7167;--line:#e6d3cc;--lost:#8d6e63;--found:#b04f6f;--foundf:#f4b8c8;--lostbg:#efe2dc;--foundbg:#fbe1e8;--on:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2e2421;--dot:#4d3542;--card:#3b2f2b;--ink:#f5e9e4;--mute:#c9b2a9;--line:#5c4a43;--lost:#c4a79b;--found:#f4b8c8;--foundf:#f4b8c8;--lostbg:#4a3a34;--foundbg:#5a3744;--on:#2e2421}}
+:root[data-theme="dark"]{--bg:#2e2421;--dot:#4d3542;--card:#3b2f2b;--ink:#f5e9e4;--mute:#c9b2a9;--line:#5c4a43;--lost:#c4a79b;--found:#f4b8c8;--foundf:#f4b8c8;--lostbg:#4a3a34;--foundbg:#5a3744;--on:#2e2421}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--bg);background-image:radial-gradient(circle,var(--dot) 7px,transparent 7.5px),radial-gradient(circle,var(--dot) 7px,transparent 7.5px);background-size:44px 44px;background-position:0 0,22px 22px;color:var(--ink);font-family:'Noto Sans Thai Looped','Sarabun',system-ui,sans-serif;line-height:1.6}
+.wrap{max-width:720px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:2rem;font-weight:800;margin:8px 0 4px;letter-spacing:-.01em}
+.sub{color:var(--mute);margin:0 0 18px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+button{font:inherit;cursor:pointer;border:0;border-radius:12px}
+.big{padding:14px 10px;font-weight:600;font-size:1rem;color:var(--on)}
+.big.lost{background:var(--lost)}.big.found{background:var(--foundf);color:#2e2421}
+.big:focus-visible,.chip:focus-visible,.sm:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}
+.tools input{flex:1 1 200px;width:auto}
+.chips{display:flex;gap:6px;overflow-x:auto}
+.chip{background:var(--card);color:var(--ink);border:1.5px solid var(--line);padding:8px 14px;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tag{position:relative;background:var(--card);border:1.5px solid var(--line);border-radius:6px 18px 18px 6px;padding:16px 16px 14px 44px;margin-bottom:12px;display:grid;gap:4px}
+.tag::before{content:"";position:absolute;left:14px;top:18px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--line)}
+.tag.lost{border-left:6px solid var(--lost)}.tag.found{border-left:6px solid var(--foundf)}
+.tag.done{opacity:.55}
+.kind{font-weight:800;font-size:.85rem}
+.lost .kind{color:var(--lost)}.found .kind{color:var(--found)}
+.tag h3{margin:0;font-size:1.15rem}
+.meta{color:var(--mute);font-size:.9rem}
+.tag img{width:100%;max-height:200px;object-fit:cover;border-radius:10px;margin-top:6px}
+.row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.sm{padding:8px 14px;background:var(--bg);color:var(--ink);border:1.5px solid var(--line);font-size:.9rem;text-decoration:none;border-radius:10px;display:inline-block}
+.badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:600;background:var(--foundbg);color:var(--found)}
+.empty{text-align:center;color:var(--mute);padding:36px 12px;border:2px dashed var(--line);border-radius:14px}
+dialog{border:0;border-radius:18px;padding:20px;width:min(520px,calc(100% - 24px));background:var(--card);color:var(--ink)}
+dialog::backdrop{background:rgba(0,0,0,.55)}
+label{display:block;font-weight:600;font-size:.9rem;margin:12px 0 4px}
+.foot{display:flex;gap:8px;margin-top:18px}
+.foot button{flex:1;padding:12px}
+.save{background:var(--ink);color:var(--bg);font-weight:600}
+.cancel{background:var(--bg);color:var(--ink);border:1.5px solid var(--line)}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;display:none}
+#authbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.link{background:none;color:var(--mute);text-decoration:underline;padding:6px 0;font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>ของหาย-ของเจอ</h1>
+  <p class="sub">แจ้งของที่ทำหาย หรือแจ้งของที่เก็บได้ เพื่อให้ของกลับถึงเจ้าของ</p>
+  <div id="authbar"></div>
+  <div class="actions">
+    <button class="big lost" data-open="lost">ฉันทำของหาย</button>
+    <button class="big found" data-open="found">ฉันเจอของ</button>
+  </div>
+  <div class="tools">
+    <input id="q" type="search" placeholder="ค้นหา เช่น กระเป๋า, กุญแจ, สถานที่" aria-label="ค้นหา">
+    <div class="chips" id="chips">
+      <button class="chip" data-f="all" aria-pressed="true">ทั้งหมด</button>
+      <button class="chip" data-f="lost" aria-pressed="false">ของหาย</button>
+      <button class="chip" data-f="found" aria-pressed="false">ของเจอ</button>
+      <button class="chip" data-f="done" aria-pressed="false">ได้คืนแล้ว</button>
+    </div>
+  </div>
+  <div id="list"></div>
+</div>
+
+<dialog id="dlg">
+  <div id="formWrap">
+    <h2 id="dTitle" style="margin:0"></h2>
+    <label for="name">ชื่อสิ่งของ</label>
+    <input id="name" maxlength="60" placeholder="เช่น กระเป๋าสตางค์สีดำ">
+    <label for="cat">หมวดหมู่</label>
+    <select id="cat"><option>กระเป๋า/กระเป๋าสตางค์</option><option>โทรศัพท์/อุปกรณ์อิเล็กทรอนิกส์</option><option>กุญแจ</option><option>เอกสาร/บัตร</option><option>เครื่องประดับ</option><option>เสื้อผ้า</option><option>สัตว์เลี้ยง</option><option>อื่น ๆ</option></select>
+    <label for="place">สถานที่</label>
+    <input id="place" maxlength="80" placeholder="เช่น ห้างเซ็นทรัล ชั้น 3">
+    <label for="date">วันที่</label>
+    <input id="date" type="date">
+    <label for="desc">รายละเอียด</label>
+    <textarea id="desc" rows="3" maxlength="300" placeholder="สี ยี่ห้อ ตำหนิ ลักษณะเด่น (อย่าใส่ข้อมูลที่เจ้าของจริงเท่านั้นที่ตอบได้)"></textarea>
+    <label for="contact">วิธีติดต่อ</label>
+    <input id="contact" maxlength="80" placeholder="เบอร์โทร หรือ LINE ID">
+    <label for="photo">รูปภาพ (ไม่บังคับ)</label>
+    <input id="photo" type="file" accept="image/*">
+    <p id="err" class="meta" style="color:#c0392b;margin:8px 0 0"></p>
+    <div class="foot"><button class="cancel" id="cancel">ยกเลิก</button><button class="save" id="save">บันทึกประกาศ</button></div>
+  </div>
+</dialog>
+<dialog id="adlg">
+  <h2 style="margin:0">เข้าสู่ระบบด้วยอีเมล</h2>
+  <label for="email">อีเมล</label>
+  <input id="email" type="email" autocomplete="email" placeholder="name@university.ac.th">
+  <label for="pw">รหัสผ่าน (อย่างน้อย 6 ตัวอักษร)</label>
+  <input id="pw" type="password" autocomplete="current-password">
+  <p id="aerr" class="meta" style="color:#c0392b;margin:8px 0 0"></p>
+  <div class="foot"><button class="cancel" id="signup">สมัครสมาชิก</button><button class="save" id="signin">เข้าสู่ระบบ</button></div>
+  <div class="row"><button class="link" id="forgot">ลืมรหัสผ่าน</button><button class="link" id="aclose">ปิด</button></div>
+</dialog>
+<div id="toast" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+// 1) ใส่ค่าจาก Supabase: Project Settings > API
+const SUPABASE_URL='https://sdfbctrnvntuskzqmqea.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNkZmJjdHJudm50dXNrenFtcWVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQzMjU5NzMsImV4cCI6MjEwOTkwMTk3M30.LzC4_FB4O91TrGDTetX75qTbwuAe2wqLQWxW2M4Le70';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let items=[],filter='all',kind='lost',photoData='',user=null;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function fmt(d){try{return new Date(d).toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'})}catch(e){return d}}
+function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2400)}
+function renderAuth(){
+  $('#authbar').innerHTML=user
+    ?`<span class="meta">เข้าสู่ระบบ: ${esc(user.email)}</span><button class="sm" data-a="out">ออกจากระบบ</button>`
+    :`<button class="sm" data-a="in">เข้าสู่ระบบ / สมัครสมาชิก</button>`;
+}
+async function load(){
+  if(!user){items=[];render();return}
+  const {data,error}=await sb.from('items').select('*').order('created_at',{ascending:false});
+  if(error){toast('โหลดข้อมูลไม่สำเร็จ: '+error.message);return}
+  items=data;render();
+}
+function render(){
+  const q=$('#q').value.trim().toLowerCase();
+  if(!user){$('#list').innerHTML='<div class="empty">กรุณาเข้าสู่ระบบด้วยอีเมลเพื่อดูและแจ้งประกาศ</div>';return}
+  const list=items.filter(i=>{
+    if(filter==='done'&&!i.done)return false;
+    if((filter==='lost'||filter==='found')&&(i.kind!==filter||i.done))return false;
+    if(filter==='all'&&i.done)return false;
+    return !q||[i.name,i.category,i.place,i.description].join(' ').toLowerCase().includes(q);
+  });
+  $('#list').innerHTML=list.length?list.map(i=>{
+    const mine=i.user_id===user.id;
+    return `<article class="tag ${i.kind} ${i.done?'done':''}">
+    <span class="kind">${i.kind==='lost'?'ของหาย':'ของเจอ'} ${i.done?'<span class="badge">ได้คืนแล้ว</span>':''}</span>
+    <h3>${esc(i.name)}</h3>
+    <span class="meta">${esc(i.category)} · ${esc(i.place)} · ${fmt(i.lost_date)}</span>
+    ${i.description?`<span>${esc(i.description)}</span>`:''}
+    ${i.photo?`<img src="${esc(i.photo)}" alt="${esc(i.name)}">`:''}
+    <div class="row"><span class="sm" style="border-style:dashed">ติดต่อ: ${esc(i.contact)}</span>
+    ${mine&&!i.done?`<button class="sm" data-done="${i.id}">ได้คืนแล้ว</button>`:''}
+    ${mine?`<button class="sm" data-del="${i.id}">ลบ</button>`:''}</div></article>`}).join('')
+    :'<div class="empty">ยังไม่มีรายการ ลองกดปุ่มด้านบนเพื่อแจ้งของหายหรือของเจอ</div>';
+}
+async function auth(mode){
+  const email=$('#email').value.trim(),password=$('#pw').value,err=$('#aerr');err.textContent='';
+  if(!email||password.length<6){err.textContent='กรอกอีเมล และรหัสผ่านอย่างน้อย 6 ตัวอักษร';return}
+  const r=mode==='up'?await sb.auth.signUp({email,password}):await sb.auth.signInWithPassword({email,password});
+  if(r.error){err.textContent=r.error.message;return}
+  if(mode==='up'&&!r.data.session){err.textContent='ส่งอีเมลยืนยันแล้ว กดลิงก์ในอีเมลก่อน แล้วค่อยเข้าสู่ระบบ';return}
+  $('#adlg').close();
+}
+$('#signin').onclick=()=>auth('in');
+$('#signup').onclick=()=>auth('up');
+$('#aclose').onclick=()=>$('#adlg').close();
+$('#forgot').onclick=async()=>{
+  const email=$('#email').value.trim();
+  if(!email){$('#aerr').textContent='กรอกอีเมลก่อน';return}
+  const {error}=await sb.auth.resetPasswordForEmail(email);
+  $('#aerr').textContent=error?error.message:'ส่งลิงก์ตั้งรหัสผ่านใหม่ไปที่อีเมลแล้ว';
+};
+$('#authbar').onclick=async e=>{
+  if(e.target.dataset.a==='in')$('#adlg').showModal();
+  if(e.target.dataset.a==='out'){await sb.auth.signOut()}
+};
+const pre=new URLSearchParams(location.search).get('kind');let opened=false;
+sb.auth.onAuthStateChange(async(_e,s)=>{
+  user=s?s.user:null;renderAuth();await load();
+  if(user&&pre&&!opened){opened=true;const b=document.querySelector('[data-open="'+pre+'"]');if(b)b.click()}
+});
+
+document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{
+  if(!user){$('#adlg').showModal();return}
+  kind=b.dataset.open;
+  $('#dTitle').textContent=kind==='lost'?'แจ้งของหาย':'แจ้งเจอของ';
+  ['name','place','desc','contact'].forEach(k=>$('#'+k).value='');
+  $('#date').value=new Date().toISOString().slice(0,10);
+  $('#photo').value='';photoData='';$('#err').textContent='';
+  $('#dlg').showModal();
+});
+$('#cancel').onclick=()=>$('#dlg').close();
+$('#photo').onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{const im=new Image();im.onload=()=>{
+    const s=Math.min(1,640/im.width),c=document.createElement('canvas');
+    c.width=im.width*s;c.height=im.height*s;
+    c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+    photoData=c.toDataURL('image/jpeg',.7)};im.src=r.result};
+  r.readAsDataURL(f);
+};
+$('#save').onclick=async()=>{
+  const v=k=>$('#'+k).value.trim();
+  if(!v('name')||!v('place')||!v('contact')){$('#err').textContent='กรุณากรอกชื่อสิ่งของ สถานที่ และวิธีติดต่อ';return}
+  const {error}=await sb.from('items').insert({kind,name:v('name'),category:$('#cat').value,place:v('place'),lost_date:v('date')||null,description:v('desc'),contact:v('contact'),photo:photoData||null});
+  if(error){$('#err').textContent=error.message;return}
+  $('#dlg').close();toast('บันทึกประกาศแล้ว');load();
+};
+$('#list').onclick=async e=>{
+  const d=e.target.dataset;
+  if(d.done){const {error}=await sb.from('items').update({done:true}).eq('id',d.done);toast(error?error.message:'ทำเครื่องหมายว่าได้คืนแล้ว');load()}
+  if(d.del&&confirm('ลบประกาศนี้ใช่ไหม')){const {error}=await sb.from('items').delete().eq('id',d.del);if(error)toast(error.message);load()}
+};
+$('#chips').onclick=e=>{
+  if(!e.target.dataset.f)return;filter=e.target.dataset.f;
+  document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===e.target));
+  render();
+};
+$('#q').oninput=render;
+renderAuth();render();
+</script>
+</body>
+</html>

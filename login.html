@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>เข้าสู่ระบบ | Lost &amp; Found</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%92%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7efec; --dot:#f6c9d6; --card:#fffaf8; --ink:#5a443b; --mute:#8a7167; --line:#e6d3cc;
+  --accent:#f4b8c8; --accentt:#b04f6f; --on:#2e2421; --err:#c0392b;
+  --head:'Mitr','Sarabun',sans-serif; --body:'Sarabun','Leelawadee UI',Tahoma,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#2e2421;--dot:#4d3542;--card:#3b2f2b;--ink:#f5e9e4;--mute:#c9b2a9;--line:#5c4a43;--accent:#f4b8c8;--accentt:#f4b8c8;--on:#2e2421;--err:#ff8a7a}
+}
+:root[data-theme="dark"]{--bg:#2e2421;--dot:#4d3542;--card:#3b2f2b;--ink:#f5e9e4;--mute:#c9b2a9;--line:#5c4a43;--accent:#f4b8c8;--accentt:#f4b8c8;--on:#2e2421;--err:#ff8a7a}
+
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{
+  margin:0; min-height:100vh; padding:20px 16px;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  background-color:var(--bg);
+  background-image:radial-gradient(circle,var(--dot) 7px,transparent 7.5px),radial-gradient(circle,var(--dot) 7px,transparent 7.5px);
+  background-size:44px 44px; background-position:0 0,22px 22px;
+  color:var(--ink); font-family:var(--body); font-size:1.05rem; line-height:1.65;
+}
+.card{
+  position:relative; width:100%; max-width:410px;
+  background:var(--card); border:1.5px solid var(--line); border-left:8px solid var(--accent);
+  border-radius:10px 28px 28px 10px; padding:58px 26px 24px;
+}
+.card::before{
+  content:""; position:absolute; left:50%; top:18px; width:18px; height:18px; margin-left:-9px;
+  border-radius:50%; background:var(--bg); border:2px solid var(--line);
+}
+h1{font-family:var(--head); font-weight:500; font-size:1.65rem; line-height:1.35; margin:0 0 6px}
+.sub{margin:0 0 18px; color:var(--mute)}
+label{display:block; margin:14px 0 5px; font-family:var(--head); font-weight:400; font-size:.95rem}
+input{
+  width:100%; padding:12px 14px; font:inherit; color:var(--ink);
+  background:var(--bg); border:1.5px solid var(--line); border-radius:10px;
+}
+input::placeholder{color:var(--mute); opacity:.7}
+input:focus{outline:none; border-color:var(--accentt)}
+button:focus-visible,a:focus-visible{outline:3px solid var(--ink); outline-offset:2px}
+.pw{position:relative}
+.pw input{padding-right:78px}
+.eye{
+  position:absolute; right:6px; top:50%; transform:translateY(-50%);
+  padding:6px 12px; border:0; border-radius:8px; background:none; cursor:pointer;
+  font:inherit; font-size:.9rem; color:var(--mute);
+}
+.go{
+  width:100%; margin-top:22px; padding:13px; border:0; border-radius:12px; cursor:pointer;
+  background:var(--accent); color:var(--on); font-family:var(--head); font-size:1.05rem; font-weight:500;
+}
+.go:hover{filter:brightness(.96)}
+.go[disabled]{opacity:.6; cursor:wait}
+.msg{min-height:1.6em; margin:12px 0 0; font-size:.95rem; color:var(--err)}
+.msg.ok{color:var(--accentt)}
+.links{display:flex; justify-content:space-between; flex-wrap:wrap; gap:4px 12px; margin-top:4px}
+.link{padding:6px 0; border:0; background:none; cursor:pointer; font:inherit; font-size:.95rem; color:var(--mute); text-decoration:underline}
+.back{margin-top:16px; font-size:.95rem; color:var(--mute)}
+</style>
+</head>
+<body>
+
+<main class="card">
+  <h1 id="title">ยินดีต้อนรับเข้าสู่ Lost &amp; Found</h1>
+  <p class="sub" id="sub">เข้าสู่ระบบด้วยอีเมล เพื่อแจ้งของหายหรือช่วยตามหาของให้เพื่อน ๆ</p>
+
+  <div id="form">
+    <label for="email">อีเมล</label>
+    <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="name@school.ac.th">
+
+    <label for="pw">รหัสผ่าน</label>
+    <div class="pw">
+      <input id="pw" type="password" autocomplete="current-password" placeholder="อย่างน้อย 6 ตัวอักษร">
+      <button type="button" class="eye" id="eye" aria-label="แสดงรหัสผ่าน">แสดง</button>
+    </div>
+
+    <button class="go" id="go" type="button">เข้าสู่ระบบ</button>
+    <p class="msg" id="msg" role="alert"></p>
+
+    <div class="links">
+      <button class="link" id="forgot" type="button">ลืมรหัสผ่าน</button>
+      <button class="link" id="swap" type="button">ยังไม่มีบัญชี? สมัครสมาชิก</button>
+    </div>
+  </div>
+</main>
+<a class="back link" href="index.html">← กลับหน้าแรก</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+/* ใส่ค่าจาก Supabase (Project Settings > API) */
+const SUPABASE_URL='https://sdfbctrnvntuskzqmqea.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNkZmJjdHJudm50dXNrenFtcWVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQzMjU5NzMsImV4cCI6MjEwOTkwMTk3M30.LzC4_FB4O91TrGDTetX75qTbwuAe2wqLQWxW2M4Le70';
+
+/* หน้าที่จะไปต่อหลังล็อกอินสำเร็จ */
+const NEXT_PAGE = 'menu.html';
+
+const $ = (s) => document.querySelector(s);
+const ready = !SUPABASE_URL.includes('YOUR-PROJECT');
+const db = ready ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+let mode = 'in';
+
+const TEXT = {
+  in:  { title: 'ยินดีต้อนรับเข้าสู่ Lost & Found',
+         sub: 'เข้าสู่ระบบด้วยอีเมล เพื่อแจ้งของหายหรือช่วยตามหาของให้เพื่อน ๆ',
+         go: 'เข้าสู่ระบบ', swap: 'ยังไม่มีบัญชี? สมัครสมาชิก', auto: 'current-password' },
+  up:  { title: 'สมัครสมาชิก',
+         sub: 'สร้างบัญชีด้วยอีเมล แล้วกดยืนยันตามลิงก์ที่เราส่งให้',
+         go: 'สมัครสมาชิก', swap: 'มีบัญชีแล้ว? เข้าสู่ระบบ', auto: 'new-password' }
+};
+
+function say(text, good) {
+  const el = $('#msg');
+  el.textContent = text || '';
+  el.className = 'msg' + (good ? ' ok' : '');
+}
+
+function thai(error) {
+  const m = (error && error.message) || '';
+  if (/invalid login/i.test(m)) return 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
+  if (/not confirmed/i.test(m)) return 'ยังไม่ได้ยืนยันอีเมล กรุณากดลิงก์ในอีเมลที่เราส่งให้';
+  if (/already registered/i.test(m)) return 'อีเมลนี้สมัครไว้แล้ว ลองเข้าสู่ระบบแทน';
+  if (/rate limit|too many/i.test(m)) return 'ลองบ่อยเกินไป กรุณารอสักครู่แล้วลองใหม่';
+  if (/password/i.test(m) && /6/.test(m)) return 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร';
+  return m || 'เกิดข้อผิดพลาด ลองใหม่อีกครั้ง';
+}
+
+function setMode(next) {
+  mode = next;
+  const t = TEXT[next];
+  $('#title').textContent = t.title;
+  $('#sub').textContent = t.sub;
+  $('#go').textContent = t.go;
+  $('#swap').textContent = t.swap;
+  $('#pw').autocomplete = t.auto;
+  say('');
+}
+
+async function submit() {
+  if (!ready) { say('ยังไม่ได้ตั้งค่า Supabase: ใส่ SUPABASE_URL และ SUPABASE_KEY ในไฟล์นี้ก่อน'); return; }
+
+  const email = $('#email').value.trim();
+  const password = $('#pw').value;
+  if (!/^\S+@\S+\.\S+$/.test(email)) { say('กรุณากรอกอีเมลให้ถูกต้อง'); return; }
+  if (password.length < 6) { say('รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร'); return; }
+
+  const btn = $('#go');
+  btn.disabled = true;
+  say('');
+  try {
+    const res = mode === 'up'
+      ? await db.auth.signUp({ email, password, options: { emailRedirectTo: new URL(NEXT_PAGE, location.href).href } })
+      : await db.auth.signInWithPassword({ email, password });
+
+    if (res.error) { say(thai(res.error)); return; }
+
+    if (mode === 'up' && !res.data.session) {
+      setMode('in');
+      say('ส่งอีเมลยืนยันแล้ว กดลิงก์ในอีเมลก่อน แล้วกลับมาเข้าสู่ระบบ', true);
+      return;
+    }
+    say('เข้าสู่ระบบสำเร็จ กำลังพาไปหน้าถัดไป...', true);
+    location.href = NEXT_PAGE;
+  } catch (e) {
+    say('เชื่อมต่อไม่สำเร็จ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+$('#go').addEventListener('click', submit);
+$('#form').addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(); });
+$('#swap').addEventListener('click', () => setMode(mode === 'in' ? 'up' : 'in'));
+
+$('#eye').addEventListener('click', () => {
+  const input = $('#pw');
+  const hidden = input.type === 'password';
+  input.type = hidden ? 'text' : 'password';
+  $('#eye').textContent = hidden ? 'ซ่อน' : 'แสดง';
+  $('#eye').setAttribute('aria-label', hidden ? 'ซ่อนรหัสผ่าน' : 'แสดงรหัสผ่าน');
+});
+
+$('#forgot').addEventListener('click', async () => {
+  if (!ready) { say('ยังไม่ได้ตั้งค่า Supabase'); return; }
+  const email = $('#email').value.trim();
+  if (!email) { say('กรอกอีเมลก่อน แล้วกด "ลืมรหัสผ่าน" อีกครั้ง'); return; }
+  const { error } = await db.auth.resetPasswordForEmail(email, { redirectTo: location.href });
+  if (error) say(thai(error)); else say('ส่งลิงก์ตั้งรหัสผ่านใหม่ไปที่อีเมลแล้ว', true);
+});
+
+/* ถ้าล็อกอินค้างอยู่ ข้ามไปหน้าถัดไปเลย */
+if (ready) {
+  db.auth.getSession().then(({ data }) => { if (data.session) location.href = NEXT_PAGE; });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>เลือกรายการ | Lost &amp; Found</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7efec;--dot:#f6c9d6;--card:#fffaf8;--ink:#5a443b;--mute:#8a7167;--line:#e6d3cc;--lost:#8d6e63;--pink:#f4b8c8;--pinkt:#b04f6f;--on:#2e2421;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2e2421;--dot:#4d3542;--card:#3b2f2b;--ink:#f5e9e4;--mute:#c9b2a9;--line:#5c4a43;--lost:#c4a79b;--pink:#f4b8c8;--pinkt:#f4b8c8;--on:#2e2421}}
+:root[data-theme="dark"]{--bg:#2e2421;--dot:#4d3542;--card:#3b2f2b;--ink:#f5e9e4;--mute:#c9b2a9;--line:#5c4a43;--lost:#c4a79b;--pink:#f4b8c8;--pinkt:#f4b8c8;--on:#2e2421}
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--bg);background-image:radial-gradient(circle,var(--dot) 7px,transparent 7.5px),radial-gradient(circle,var(--dot) 7px,transparent 7.5px);background-size:44px 44px;background-position:0 0,22px 22px;color:var(--ink);font-family:'Noto Sans Thai Looped','Sarabun',system-ui,sans-serif;line-height:1.6;min-height:100vh}
+.wrap{max-width:760px;margin:0 auto;padding:16px 18px 40px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.logo{font-weight:800;font-size:1.2rem;text-decoration:none;color:inherit}
+.who{display:flex;align-items:center;gap:8px;font-size:.9rem;color:var(--mute)}
+.sm{font:inherit;font-size:.9rem;cursor:pointer;padding:6px 12px;border-radius:10px;background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+h1{font-size:clamp(1.7rem,5vw,2.4rem);line-height:1.25;margin:8px 0 6px;font-weight:800}
+.sub{color:var(--mute);margin:0 0 24px}
+.choices{display:grid;gap:16px}
+@media(min-width:640px){.choices{grid-template-columns:1fr 1fr}}
+.opt{position:relative;display:block;text-decoration:none;color:inherit;background:var(--card);border:1.5px solid var(--line);border-radius:10px 28px 28px 10px;padding:30px 24px 24px 56px;transition:transform .15s}
+.opt:hover{transform:translateY(-3px)}
+.opt::before{content:"";position:absolute;left:20px;top:26px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:2px solid var(--line)}
+.opt.lost{border-left:8px solid var(--lost)}
+.opt.found{border-left:8px solid var(--pink)}
+.ic{font-size:2.2rem;line-height:1;display:block;margin-bottom:8px}
+.opt h2{margin:0 0 4px;font-size:1.4rem}
+.opt p{margin:0 0 14px;color:var(--mute)}
+.go{display:inline-block;font-weight:600;padding:10px 18px;border-radius:12px}
+.lost .go{background:var(--lost);color:#fff}
+.found .go{background:var(--pink);color:var(--on)}
+.more{text-align:center;margin-top:26px}
+.more a{color:var(--mute)}
+#msg{text-align:center;color:var(--mute);font-size:.9rem;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="logo" href="index.html">🎒 Lost &amp; Found</a>
+    <div class="who"><span id="who"></span><button class="sm" id="out" type="button">ออกจากระบบ</button></div>
+  </div>
+
+  <h1>วันนี้คุณมาเพราะอะไร</h1>
+  <p class="sub">เลือกสิ่งที่ตรงกับคุณที่สุด แล้วเริ่มแจ้งได้เลย</p>
+
+  <div class="choices">
+    <a class="opt lost" href="lost-found-supabase.html?kind=lost">
+      <span class="ic" aria-hidden="true">🧳</span>
+      <h2>ฉันทำของหาย</h2>
+      <p>แจ้งสิ่งของที่หายไป เพื่อให้คนที่พบติดต่อกลับมา</p>
+      <span class="go">แจ้งของหาย</span>
+    </a>
+    <a class="opt found" href="lost-found-supabase.html?kind=found">
+      <span class="ic" aria-hidden="true">🙌</span>
+      <h2>ฉันเจอของ</h2>
+      <p>แจ้งของที่เก็บได้ เพื่อให้เจ้าของมารับคืน</p>
+      <span class="go">แจ้งเจอของ</span>
+    </a>
+  </div>
+  <div class="more"><a href="lost-found-supabase.html">หรือดูรายการทั้งหมดก่อน</a></div>
+  <p id="msg" role="status"></p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+// ใส่ค่าชุดเดียวกับ login.html
+const SUPABASE_URL='https://sdfbctrnvntuskzqmqea.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNkZmJjdHJudm50dXNrenFtcWVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQzMjU5NzMsImV4cCI6MjEwOTkwMTk3M30.LzC4_FB4O91TrGDTetX75qTbwuAe2wqLQWxW2M4Le70';
+const LOGIN_PAGE='login.html';
+
+const $=s=>document.querySelector(s);
+const configured=!SUPABASE_URL.includes('YOUR-PROJECT');
+if(configured){
+  const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  sb.auth.getSession().then(({data})=>{
+    if(!data.session){location.href=LOGIN_PAGE;return}
+    $('#who').textContent=data.session.user.email;
+  });
+  $('#out').onclick=async()=>{await sb.auth.signOut();location.href=LOGIN_PAGE};
+}else{
+  $('#who').textContent='โหมดตัวอย่าง';
+  $('#msg').textContent='ยังไม่ได้ใส่ค่า Supabase จึงแสดงเป็นตัวอย่าง';
+  $('#out').onclick=()=>{location.href=LOGIN_PAGE};
+}
+</script>
+</body>
+</html>
